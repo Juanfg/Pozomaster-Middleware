@@ -2,7 +2,7 @@ import { QueryInterface, SequelizeStatic } from 'sequelize';
 
 export = {
     up: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
-        return queryInterface.createTable('Units', {
+        return queryInterface.createTable('Categories', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -27,6 +27,6 @@ export = {
     },
 
     down: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
-        return queryInterface.dropTable('Units');
+        return queryInterface.dropTable('Categories');
     }
 };

@@ -1,19 +1,18 @@
 import { Application } from 'express';
-// import UnitCtrl from './modules/Unit/UnitCtrl';
 import UnitCtrl from './controllers/UnitCtrl';
+import CategoryCtrl from './controllers/CategoryCtrl';
 
 class Routes {
-
-    private unitCtrl: UnitCtrl;
-
+    
     constructor(app: Application) {
-        this.unitCtrl = new UnitCtrl();
         this.getRoutes(app);
     }
 
     private getRoutes(app: Application): void {
-        app.route('/api/units').get(this.unitCtrl.getAll);
-        app.route('/api/units').post(this.unitCtrl.createUnit);
+        app.route('/api/units').get(UnitCtrl.getAll);
+        app.route('/api/units').post(UnitCtrl.create);
+        app.route('/api/categories').get(CategoryCtrl.getAll);
+        app.route('/api/categories').post(CategoryCtrl.create);
     }
 }
 

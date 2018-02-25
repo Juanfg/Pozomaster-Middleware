@@ -1,10 +1,10 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
-export interface UnitAttributes {
+export interface CategoryAttributes {
     name ? : string;
 }
 
-export interface UnitInstance {
+export interface CategoryInstance {
     id: number;
     createdAt: Date;
     updatedAt: Date;
@@ -12,8 +12,8 @@ export interface UnitInstance {
     name: string;
 }
 
-export default function defineUnit(sequelize: Sequelize, DataTypes: DataTypes): any {
-    var Unit = sequelize.define('Unit', {
+export default function defineCategory(sequelize: Sequelize, DataTypes: DataTypes): any {
+    var Category = sequelize.define('Category', {
         name: DataTypes.STRING
     }, {
         classMethods: {
@@ -23,5 +23,5 @@ export default function defineUnit(sequelize: Sequelize, DataTypes: DataTypes): 
         }
     });
 
-    return Unit;
+    return Category;
 };

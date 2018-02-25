@@ -38,5 +38,5 @@ gulp.task('watch', ['build'], function() {
     });
 });
 
-// Defaut task
+// Default task
 gulp.task('default', ['build']);
