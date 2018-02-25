@@ -2,8 +2,9 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: ".env"});
-import { Database } from './db/db';
+import { Database } from './database/db';
 import Routes from './routes'
+import * as db from './models';
 
 class App {
     public app: express.Application;
