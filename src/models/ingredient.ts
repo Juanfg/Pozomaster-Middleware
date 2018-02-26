@@ -2,7 +2,7 @@ import { Sequelize, DataTypes } from 'sequelize';
 
 export interface IngredientAttributes {
     name ? : string;
-    unit_id: number;
+    unitId: number;
 }
 
 export interface IngredientInstance {
@@ -16,7 +16,8 @@ export interface IngredientInstance {
 
 export default function defineIngredient(sequelize: Sequelize, DataTypes: DataTypes): any {
     var Ingredient = sequelize.define('Ingredient', {
-        name: DataTypes.STRING
+        name: DataTypes.STRING,
+        unitId: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function(models: any) {

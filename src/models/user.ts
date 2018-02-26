@@ -25,7 +25,8 @@ export default function defineUser(sequelize: Sequelize, DataTypes: DataTypes): 
         name: DataTypes.STRING,
         email: DataTypes.STRING,
         password: DataTypes.STRING,
-        token: DataTypes.STRING
+        token: DataTypes.STRING,
+        roleId: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function(models: any) {

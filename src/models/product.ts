@@ -19,7 +19,8 @@ export interface ProductInstance {
 export default function defineProduct(sequelize: Sequelize, DataTypes: DataTypes): any {
     var Product = sequelize.define('Product', {
         name: DataTypes.STRING,
-        price: DataTypes.DOUBLE
+        price: DataTypes.DOUBLE,
+        categoryId: DataTypes.INTEGER
     }, {
         classMethods: {
             associate: function (models: any) {
