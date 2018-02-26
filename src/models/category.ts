@@ -18,7 +18,10 @@ export default function defineCategory(sequelize: Sequelize, DataTypes: DataType
     }, {
         classMethods: {
             associate: function(models: any) {
-
+                Category.hasMany(models.Product, {
+                    foreignKey: 'categoryId',
+                    as: 'products'
+                });
             }
         }
     });

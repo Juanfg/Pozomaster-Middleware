@@ -1,6 +1,7 @@
 import { Application } from 'express';
 import UnitCtrl from './controllers/UnitCtrl';
 import CategoryCtrl from './controllers/CategoryCtrl';
+import TableCtrl from './controllers/TableCtrl';
 
 class Routes {
     
@@ -13,6 +14,8 @@ class Routes {
         app.route('/api/units').post(UnitCtrl.create);
         app.route('/api/categories').get(CategoryCtrl.getAll);
         app.route('/api/categories').post(CategoryCtrl.create);
+        app.route('/api/tables').get(TableCtrl.getAll);
+        app.route('/api/tables').post(TableCtrl.create);
     }
 }
 

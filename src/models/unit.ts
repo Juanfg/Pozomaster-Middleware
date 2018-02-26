@@ -18,7 +18,10 @@ export default function defineUnit(sequelize: Sequelize, DataTypes: DataTypes): 
     }, {
         classMethods: {
             associate: function(models: any) {
-
+                Unit.hasMany(models.Ingredient, {
+                    foreignKey: 'unitId',
+                    as: 'ingredients'
+                });
             }
         }
     });
