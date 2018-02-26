@@ -33,7 +33,7 @@ class IngredientCtrl {
 
                 if (!ingredientAlreadyExist) {
                     Models.Ingredient
-                        .create(req.body)
+                        .create(newIngredient)
                         .then((result: IngredientInstance) => {
                             res.status(201).json({
                                 "message": "Created",

@@ -33,7 +33,7 @@ class CategoryCtrl {
 
                 if (!categoryAlreadyExist) {
                     Models.Category
-                        .create(req.body)
+                        .create(newCategory)
                         .then((result: CategoryInstance) => {
                             res.status(201).json({
                                 "message": "Created",

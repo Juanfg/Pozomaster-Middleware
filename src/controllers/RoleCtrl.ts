@@ -33,7 +33,7 @@ class RoleCtrl {
 
                 if (!roleAlreadyExist) {
                     Models.Role
-                        .create(req.body)
+                        .create(newRole)
                         .then((result: RoleInstance) => {
                             res.status(201).json({
                                 "message": "Created",

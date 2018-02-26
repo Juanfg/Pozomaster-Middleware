@@ -23,7 +23,12 @@ export interface UserInstance {
 export default function defineUser(sequelize: Sequelize, DataTypes: DataTypes): any {
     var User = sequelize.define('User', {
         name: DataTypes.STRING,
-        email: DataTypes.STRING,
+        email: {
+            type: DataTypes.STRING,
+            validate: {
+                isEmail: true
+            }
+        },
         password: DataTypes.STRING,
         token: DataTypes.STRING,
         roleId: DataTypes.INTEGER

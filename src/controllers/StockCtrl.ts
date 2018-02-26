@@ -22,7 +22,7 @@ class StockCtrl {
         let newStock: StockInstance = req.body;
         let stockAlreadyExist: boolean = false;
         Models.Stock
-            .create(req.body)
+            .create(newStock)
             .then((result: StockInstance) => {
                 res.status(201).json({
                     "message": "Created",

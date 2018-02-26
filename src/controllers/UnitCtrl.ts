@@ -33,7 +33,7 @@ class UnitCtrl {
 
                 if (!unitAlreadyExist) {
                     Models.Unit
-                        .create(req.body)
+                        .create(newUnit)
                         .then((result: UnitInstance) => {
                             res.status(201).json({
                                 "message": "Created",

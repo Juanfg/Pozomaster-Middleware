@@ -33,7 +33,7 @@ class ProductCtrl {
 
                 if (!productAlreadyExist) {
                     Models.Product
-                        .create(req.body)
+                        .create(newProduct)
                         .then((result: ProductInstance) => {
                             res.status(201).json({
                                 "message": "Created",

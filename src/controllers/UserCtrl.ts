@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import * as bcrypt from 'bcrypt';
 import { UserInstance } from './../models/user';
 import Models from './../models';
 
@@ -32,8 +33,11 @@ class UserCtrl {
                 });
 
                 if (!userAlreadyExist) {
+                    if (newUser.password) {
+                        newUser.password = bcrypt.hashSync(newUser.password, 10);
+                    }
                     Models.User
-                        .create(req.body)
+                        .create(newUser)
                         .then((result: UserInstance) => {
                             res.status(201).json({
                                 "message": "Created",
