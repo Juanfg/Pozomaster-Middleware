@@ -45,6 +45,43 @@ class RoleCtrl {
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the roles: ${err}` }));
     }
+
+    public update(req: Request, res: Response, next: NextFunction) {
+        Models.Role
+            .findById(req.params.roleId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Role not found" });
+                }
+                result.update({
+                    name: req.body.name || result.name
+                })
+                .then(() => res.status(200).json({
+                    "message": "Updated",
+                    "data": result
+                }))
+                .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the role ${err}` }));
+            })
+            .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the role: ${err}` }));
+    }
+
+    public delete(req: Request, res: Response, next: NextFunction) {
+        Models.Role
+            .findById(req.params.roleId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Role not found" });
+                }
+                result.destroy()
+                    .then((result: any) => {
+                        res.status(200).json({
+                            "message": "Deleted"
+                        })
+                    })
+                    .catch((err: Error) => res.status(400).json({ "message": `Error trying to delete the role ${err}` }));
+            })
+            .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the role: ${err}` }));
+    }
 }
 
 export default new RoleCtrl();

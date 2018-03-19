@@ -45,6 +45,45 @@ class ProductCtrl {
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the products: ${err}` }));
     }
+
+    public update(req: Request, res: Response, next: NextFunction) {
+        Models.Product
+            .findById(req.params.productId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Product not found" });
+                }
+                result.update({
+                    name: req.body.name || result.name,
+                    price: req.body.price || result.price,
+                    categoryId: req.body.categoryId || result.categoryId
+                })
+                .then(() => res.status(200).json({
+                    "message": "Updated",
+                    "data": result
+                }))
+                .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the product ${err}` }));
+            })
+            .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the product: ${err}` }));
+    }
+
+    public delete(req: Request, res: Response, next: NextFunction) {
+        Models.Product
+            .findById(req.params.productId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Product not found" });
+                }
+                result.destroy()
+                    .then((result: any) => {
+                        res.status(200).json({
+                            "message": "Deleted"
+                        })
+                    })
+                    .catch((err: Error) => res.status(400).json({ "message": `Error trying to delete the product ${err}` }));
+            })
+            .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the product: ${err}` }));
+    }
 }
 
 export default new ProductCtrl();

@@ -45,6 +45,43 @@ class CategoryCtrl {
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the categories: ${err}` }));
     }
+
+    public update(req: Request, res: Response, next: NextFunction) {
+        Models.Category
+            .findById(req.params.categoryId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Category not found" });
+                }
+                result.update({
+                    name: req.body.name || result.name
+                })
+                .then(() => res.status(200).json({
+                    "message": "Updated",
+                    "data": result
+                }))
+                .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the category ${err}` }));
+            })
+            .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the category: ${err}` }));
+    }
+
+    public delete(req: Request, res: Response, next: NextFunction) {
+        Models.Category
+            .findById(req.params.categoryId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Category not found" });
+                }
+                result.destroy()
+                    .then((result: any) => {
+                        res.status(200).json({
+                            "message": "Deleted"
+                        })
+                    })
+                    .catch((err: Error) => res.status(400).json({ "message": `Error trying to delete the category ${err}` }));
+            })
+            .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the category: ${err}` }));
+    }
 }
 
 export default new CategoryCtrl();
