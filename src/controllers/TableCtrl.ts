@@ -10,22 +10,28 @@ class TableCtrl {
         Models.Table
             .findAll()
             .then((result: [TableInstance]) => {
-                res.status(200).json({
-                    "message": "OK",
-                    "data": result
-                })
+                res.status(200).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the tables: ${err}` }));
+    }
+
+    public view(req: Request, res: Response, next: NextFunction) {
+        Models.Table
+            .findById(req.params.tableId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Table not found" });
+                }
+                res.status(200).json(result);
+            })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the table: ${err}` }));
     }
 
     public create(req: Request, res: Response, next: NextFunction) {
         Models.Table
             .create(req.body)
             .then((result: TableInstance) => {
-                res.status(201).json({
-                    "message": "Created",
-                    "data": result
-                })
+                res.status(201).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to create the table: ${err}` }));
     }
@@ -41,10 +47,7 @@ class TableCtrl {
                     description: req.body.description || result.description,
                     seats: req.body.seats || result.seats
                 })
-                .then(() => res.status(200).json({
-                    "message": "Updated",
-                    "data": result
-                }))
+                .then(() => res.status(200).json(result))
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the table ${err}` }));
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the table: ${err}` }));

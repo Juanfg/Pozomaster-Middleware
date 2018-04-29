@@ -10,12 +10,21 @@ class IngredientCtrl {
         Models.Ingredient
             .findAll()
             .then((result: [IngredientInstance]) => {
-                res.status(200).json({
-                    "message": "OK",
-                    "data": result
-                })
+                res.status(200).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the ingredients: ${err}` }));
+    }
+
+    public view(req: Request, res: Response, next: NextFunction) {
+        Models.Ingredient
+            .findById(req.params.ingredientId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Ingredient not found" });
+                }
+                res.status(200).json(result);
+            })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the ingredient: ${err}` }));
     }
 
     public create(req: Request, res: Response, next: NextFunction) {
@@ -35,10 +44,7 @@ class IngredientCtrl {
                     Models.Ingredient
                         .create(newIngredient)
                         .then((result: IngredientInstance) => {
-                            res.status(201).json({
-                                "message": "Created",
-                                "data": result
-                            })
+                            res.status(201).json(result);
                         })
                         .catch((err: Error) => res.status(500).json({ "message": `Error trying to create the ingredient: ${err}` }));
                 }
@@ -57,10 +63,7 @@ class IngredientCtrl {
                     name: req.body.name || result.name,
                     unitId: req.body.unitId || result.unitId
                 })
-                .then(() => res.status(200).json({
-                    "message": "Updated",
-                    "data": result
-                }))
+                .then(() => res.status(200).json(result))
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the ingredient ${err}` }));
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the ingredient: ${err}` }));

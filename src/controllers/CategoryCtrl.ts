@@ -10,12 +10,21 @@ class CategoryCtrl {
         Models.Category
             .findAll()
             .then((result: [CategoryInstance]) => {
-                res.status(200).json({
-                    "message": "OK",
-                    "data": result
-                })
+                res.status(200).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the categories: ${err}` }));
+    }
+
+    public view(req: Request, res: Response, next: NextFunction) {
+        Models.Category
+            .findById(req.params.categoryId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Category not found" });
+                }
+                res.status(200).json(result);
+            })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the category: ${err}` }));
     }
 
     public create(req: Request, res: Response, next: NextFunction) {
@@ -35,10 +44,7 @@ class CategoryCtrl {
                     Models.Category
                         .create(newCategory)
                         .then((result: CategoryInstance) => {
-                            res.status(201).json({
-                                "message": "Created",
-                                "data": result
-                            })
+                            res.status(201).json(result);
                         })
                         .catch((err: Error) => res.status(500).json({ "message": `Error trying to create the category: ${err}` }));
                 }
@@ -56,10 +62,7 @@ class CategoryCtrl {
                 result.update({
                     name: req.body.name || result.name
                 })
-                .then(() => res.status(200).json({
-                    "message": "Updated",
-                    "data": result
-                }))
+                .then(() => res.status(200).json(result))
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the category ${err}` }));
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the category: ${err}` }));

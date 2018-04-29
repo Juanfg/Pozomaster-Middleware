@@ -11,12 +11,21 @@ class UserCtrl {
         Models.User
             .findAll()
             .then((result: [UserInstance]) => {
-                res.status(200).json({
-                    "message": "OK",
-                    "data": result
-                })
+                res.status(200).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the users: ${err}` }));
+    }
+
+    public view(req: Request, res: Response, next: NextFunction) {
+        Models.User
+            .findById(req.params.userId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "User not found" });
+                }
+                res.status(200).json(result);
+            })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the user: ${err}` }));
     }
 
     public create(req: Request, res: Response, next: NextFunction) {
@@ -39,10 +48,7 @@ class UserCtrl {
                     Models.User
                         .create(newUser)
                         .then((result: UserInstance) => {
-                            res.status(201).json({
-                                "message": "Created",
-                                "data": result
-                            })
+                            res.status(201).json(result);
                         })
                         .catch((err: Error) => res.status(500).json({ "message": `Error trying to create the user: ${err}` }));
                 }
@@ -64,10 +70,7 @@ class UserCtrl {
                     password: req.body.password ? bcrypt.hashSync(req.body.password, 10) : result.password,
                     roleId: req.body.roleId || result.roleId
                 })
-                .then(() => res.status(200).json({
-                    "message": "Updated",
-                    "data": result
-                }))
+                .then(() => res.status(200).json(result))
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the user ${err}` }));
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the user: ${err}` }));

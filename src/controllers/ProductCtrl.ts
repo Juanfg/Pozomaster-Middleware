@@ -10,12 +10,21 @@ class ProductCtrl {
         Models.Product
             .findAll()
             .then((result: [ProductInstance]) => {
-                res.status(200).json({
-                    "message": "OK",
-                    "data": result
-                })
+                res.status(200).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the products: ${err}` }));
+    }
+
+    public view(req: Request, res: Response, next: NextFunction) {
+        Models.Product
+            .findById(req.params.productId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Product not found" });
+                }
+                res.status(200).json(result);
+            })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the product: ${err}` }));
     }
 
     public create(req: Request, res: Response, next: NextFunction) {
@@ -35,10 +44,7 @@ class ProductCtrl {
                     Models.Product
                         .create(newProduct)
                         .then((result: ProductInstance) => {
-                            res.status(201).json({
-                                "message": "Created",
-                                "data": result
-                            })
+                            res.status(201).json(result);
                         })
                         .catch((err: Error) => res.status(500).json({ "message": `Error trying to create the product: ${err}` }));
                 }
@@ -58,10 +64,7 @@ class ProductCtrl {
                     price: req.body.price || result.price,
                     categoryId: req.body.categoryId || result.categoryId
                 })
-                .then(() => res.status(200).json({
-                    "message": "Updated",
-                    "data": result
-                }))
+                .then(() => res.status(200).json(result))
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the product ${err}` }));
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the product: ${err}` }));

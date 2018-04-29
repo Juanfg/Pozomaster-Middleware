@@ -10,12 +10,21 @@ class StockCtrl {
         Models.Stock
             .findAll()
             .then((result: [StockInstance]) => {
-                res.status(200).json({
-                    "message": "OK",
-                    "data": result
-                })
+                res.status(200).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the stocks: ${err}` }));
+    }
+
+    public view(req: Request, res: Response, next: NextFunction) {
+        Models.Stock
+            .findById(req.params.stockId)
+            .then((result: any) => {
+                if (!result) {
+                    return res.status(400).json({ "message": "Stock not found" });
+                }
+                res.status(200).json(result);
+            })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the stock: ${err}` }));
     }
 
     public create(req: Request, res: Response, next: NextFunction) {
@@ -24,10 +33,7 @@ class StockCtrl {
         Models.Stock
             .create(newStock)
             .then((result: StockInstance) => {
-                res.status(201).json({
-                    "message": "Created",
-                    "data": result
-                })
+                res.status(201).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to create the stock: ${err}` }));
     }
@@ -43,10 +49,7 @@ class StockCtrl {
                     quantity: req.body.quantity || result.quantity,
                     ingredientId: req.body.ingredientId || result.ingredientId
                 })
-                .then(() => res.status(200).json({
-                    "message": "Updated",
-                    "data": result
-                }))
+                .then(() => res.status(200).json(result))
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the stock ${err}` }));
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the stock: ${err}` }));

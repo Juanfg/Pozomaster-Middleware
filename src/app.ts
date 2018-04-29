@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: ".env"});
 import { Database } from './database/db';
@@ -19,6 +20,7 @@ class App {
     private middleware(): void {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(cors());
     }
 
     private database(): void {
