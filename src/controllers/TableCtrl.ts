@@ -17,7 +17,7 @@ class TableCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Table
-            .findById({ include: [{ all: true }] }, req.params.tableId)
+            .findById(req.params.tableId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Table not found" });

@@ -17,7 +17,7 @@ class StockCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Stock
-            .findById({ include: [{ all: true }] }, req.params.stockId)
+            .findById(req.params.stockId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Stock not found" });

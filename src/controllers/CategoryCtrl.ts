@@ -17,7 +17,7 @@ class CategoryCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Category
-            .findById({ include: [{ all: true }] }, req.params.categoryId)
+            .findById(req.params.categoryId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Category not found" });

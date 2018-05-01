@@ -17,7 +17,7 @@ class OrderCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Order
-            .findById({ include: [{ all: true }] }, req.params.orderId)
+            .findById(req.params.orderId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Order not found" });

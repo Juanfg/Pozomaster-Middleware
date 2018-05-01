@@ -17,7 +17,7 @@ class RoleCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Role
-            .findById({ include: [{ all: true }] }, req.params.roleId)
+            .findById(req.params.roleId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Role not found" });

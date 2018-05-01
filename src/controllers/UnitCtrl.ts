@@ -17,7 +17,7 @@ class UnitCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Unit
-            .findById({ include: [{ all: true }] }, req.params.unitId)
+            .findById(req.params.unitId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Unit not found" });
@@ -31,7 +31,7 @@ class UnitCtrl {
         let newUnit: UnitInstance = req.body;
         let unitAlreadyExist: boolean = false;
         Models.Unit
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [UnitInstance]) => {
                 result.forEach(unit => {
                     if (unit.name === newUnit.name) {
@@ -54,7 +54,7 @@ class UnitCtrl {
 
     public update(req: Request, res: Response, next: NextFunction) {
         Models.Unit
-            .findById(req.params.unitId)
+            .findById(req.params.unitId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Unit not found" });
@@ -70,7 +70,7 @@ class UnitCtrl {
 
     public delete(req: Request, res: Response, next: NextFunction) {
         Models.Unit
-            .findById(req.params.unitId)
+            .findById(req.params.unitId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Unit not found" });

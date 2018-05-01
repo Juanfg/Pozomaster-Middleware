@@ -17,7 +17,7 @@ class ProductCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Product
-            .findById({ include: [{ all: true }] }, req.params.productId)
+            .findById(req.params.productId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Product not found" });

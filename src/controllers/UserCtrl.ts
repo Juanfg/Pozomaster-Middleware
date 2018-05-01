@@ -18,7 +18,7 @@ class UserCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.User
-            .findById({ include: [{ all: true }] }, req.params.userId)
+            .findById(req.params.userId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "User not found" });
@@ -32,7 +32,7 @@ class UserCtrl {
         let newUser: UserInstance = req.body;
         let userAlreadyExist: boolean = false;
         Models.User
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [UserInstance]) => {
                 result.forEach(user => {
                     if (user.email === newUser.email) {
@@ -58,7 +58,7 @@ class UserCtrl {
 
     public update(req: Request, res: Response, next: NextFunction) {
         Models.User
-            .findById(req.params.userId)
+            .findById(req.params.userId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "User not found" });
@@ -78,7 +78,7 @@ class UserCtrl {
 
     public delete(req: Request, res: Response, next: NextFunction) {
         Models.User
-            .findById(req.params.userId)
+            .findById(req.params.userId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "User not found" });

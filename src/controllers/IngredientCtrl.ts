@@ -17,7 +17,7 @@ class IngredientCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Ingredient
-            .findById({ include: [{ all: true }] }, req.params.ingredientId)
+            .findById(req.params.ingredientId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Ingredient not found" });
@@ -31,7 +31,7 @@ class IngredientCtrl {
         let newIngredient: IngredientInstance = req.body;
         let ingredientAlreadyExist: boolean = false;
         Models.Ingredient
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [IngredientInstance]) => {
                 result.forEach(ingredient => {
                     if (ingredient.name === newIngredient.name) {
@@ -54,7 +54,7 @@ class IngredientCtrl {
 
     public update(req: Request, res: Response, next: NextFunction) {
         Models.Ingredient
-            .findById(req.params.ingredientId)
+            .findById(req.params.ingredientId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Ingredient not found" });
@@ -71,7 +71,7 @@ class IngredientCtrl {
 
     public delete(req: Request, res: Response, next: NextFunction) {
         Models.Ingredient
-            .findById(req.params.ingredientId)
+            .findById(req.params.ingredientId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Ingredient not found" });
