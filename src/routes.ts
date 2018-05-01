@@ -7,6 +7,7 @@ import ProductCtrl from './controllers/ProductCtrl';
 import RoleCtrl from './controllers/RoleCtrl';
 import StockCtrl from './controllers/StockCtrl';
 import UserCtrl from './controllers/UserCtrl';
+import OrderCtrl from './controllers/OrderCtrl';
 
 class Routes {
 
@@ -71,6 +72,13 @@ class Routes {
         app.route('/api/users').post(UserCtrl.create);
         app.route('/api/users/:userId').put(UserCtrl.update);
         app.route('/api/users/:userId').delete(UserCtrl.delete);
+
+        // Orders routes
+        app.route('/api/orders').get(OrderCtrl.getAll);
+        app.route('/api/orders/:orderId').get(OrderCtrl.view);
+        app.route('/api/orders').post(OrderCtrl.create);
+        app.route('/api/orders/:orderId').put(OrderCtrl.update);
+        app.route('/api/orders/:orderId').delete(OrderCtrl.delete);
     }
 }
 

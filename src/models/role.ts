@@ -15,16 +15,14 @@ export interface RoleInstance {
 export default function defineRole(sequelize: Sequelize, DataTypes: DataTypes): any {
     var Role = sequelize.define('Role', {
         name: DataTypes.STRING
-    }, {
-        classMethods: {
-            associate: function(models: any) {
-                Role.hasMany(models.User, {
-                    foreignKey: 'roleId',
-                    as: 'users'
-                });
-            }
-        }
     });
+    
+    Role.associate = function(models) {
+        Role.hasMany(models.User, {
+            foreignKey: 'roleId',
+            as: 'users'
+        });
+    }
 
     return Role;
 };

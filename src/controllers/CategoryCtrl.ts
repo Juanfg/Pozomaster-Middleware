@@ -8,7 +8,7 @@ class CategoryCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Category
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [CategoryInstance]) => {
                 res.status(200).json(result);
             })
@@ -17,7 +17,7 @@ class CategoryCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Category
-            .findById(req.params.categoryId)
+            .findById({ include: [{ all: true }] }, req.params.categoryId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Category not found" });
@@ -35,7 +35,7 @@ class CategoryCtrl {
             .then((result: [CategoryInstance]) => {
                 result.forEach(category => {
                     if (category.name === newCategory.name) {
-                        res.status(422).json({ "message": "That category already exists" });
+                        res.status(422).json({ "message" : "That category already exists" });
                         categoryAlreadyExist = true;
                     }
                 });

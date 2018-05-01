@@ -15,16 +15,14 @@ export interface UnitInstance {
 export default function defineUnit(sequelize: Sequelize, DataTypes: DataTypes): any {
     var Unit = sequelize.define('Unit', {
         name: DataTypes.STRING
-    }, {
-        classMethods: {
-            associate: function(models: any) {
-                Unit.hasMany(models.Ingredient, {
-                    foreignKey: 'unitId',
-                    as: 'ingredients'
-                });
-            }
-        }
     });
+
+    Unit.associate = function(models) {
+        Unit.hasMany(models.Ingredient, {
+            foreignKey: 'unitId',
+            as: 'ingredients'
+        });
+    }
 
     return Unit;
 };

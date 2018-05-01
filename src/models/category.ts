@@ -15,16 +15,14 @@ export interface CategoryInstance {
 export default function defineCategory(sequelize: Sequelize, DataTypes: DataTypes): any {
     var Category = sequelize.define('Category', {
         name: DataTypes.STRING
-    }, {
-        classMethods: {
-            associate: function(models: any) {
-                Category.hasMany(models.Product, {
-                    foreignKey: 'categoryId',
-                    as: 'products'
-                });
-            }
-        }
     });
+    
+    Category.associate = function(models) {
+        Category.hasMany(models.Product, {
+            foreignKey: 'categoryId',
+            as: 'products'
+        });
+    }
 
     return Category;
 };

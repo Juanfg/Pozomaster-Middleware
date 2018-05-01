@@ -8,7 +8,7 @@ class TableCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Table
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [TableInstance]) => {
                 res.status(200).json(result);
             })
@@ -17,7 +17,7 @@ class TableCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Table
-            .findById(req.params.tableId)
+            .findById({ include: [{ all: true }] }, req.params.tableId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Table not found" });

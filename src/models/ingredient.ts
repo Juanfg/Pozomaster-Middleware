@@ -18,22 +18,30 @@ export default function defineIngredient(sequelize: Sequelize, DataTypes: DataTy
     var Ingredient = sequelize.define('Ingredient', {
         name: DataTypes.STRING,
         unitId: DataTypes.INTEGER
-    }, {
-        classMethods: {
-            associate: function(models: any) {
-                Ingredient.belongsTo(models.Unit, {
-                    foreignKey: 'unitId',
-                    onUpdate: 'CASCADE',
-                    onDelete: 'CASCADE'
-                });
-
-                Ingredient.hasMany(models.Stock, {
-                    foreignKey: 'ingredientId',
-                    as: 'stocks'
-                });
-            }
-        }
     });
+    
+    Ingredient.associate = function(models) {
+        Ingredient.belongsTo(models.Unit, {
+            foreignKey: 'unitId',
+            as: 'unit'
+        });
 
+        Ingredient.hasMany(models.Stock, {
+            foreignKey: 'ingredientId',
+            as: 'stocks'
+        });
+
+        Ingredient.hasMany(models.IngredientProduct, {
+            foreignKey: 'ingredientId',
+            as: 'ingredientProducts'
+        });
+
+        Ingredient.belongsToMany(models.Product, {
+            foreignKey: 'productId',
+            through: 'IngredientProducts',
+            as: 'products'
+        });
+    }
+    
     return Ingredient;
 };

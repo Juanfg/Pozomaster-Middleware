@@ -21,17 +21,31 @@ export default function defineProduct(sequelize: Sequelize, DataTypes: DataTypes
         name: DataTypes.STRING,
         price: DataTypes.DOUBLE,
         categoryId: DataTypes.INTEGER
-    }, {
-        classMethods: {
-            associate: function (models: any) {
-                Product.belongsTo(models.Category, {
-                    foreignKey: 'categoryId',
-                    onUpdate: 'CASCADE',
-                    onDelete: 'CASCADE'
-                });
-            }
-        }
     });
+    
+    Product.associate = function(models) {
+        Product.belongsTo(models.Category, {
+            foreignKey: 'categoryId',
+            as: 'category'
+        });
+
+        Product.hasMany(models.OrderProduct, {
+            foreignKey: 'productId',
+            as: 'orderProducts'
+        });
+
+        Product.belongsToMany(models.Order, {
+            foreignKey: 'orderId',
+            through: 'OrderProducts',
+            as: 'orders'
+        });
+
+        Product.belongsToMany(models.Ingredient, {
+            foreignKey: 'ingredientId',
+            through: 'IngredientProducts',
+            as: 'ingredients'
+        });
+    }
 
     return Product;
 };

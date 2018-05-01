@@ -32,17 +32,25 @@ export default function defineUser(sequelize: Sequelize, DataTypes: DataTypes): 
         password: DataTypes.STRING,
         token: DataTypes.STRING,
         roleId: DataTypes.INTEGER
-    }, {
-        classMethods: {
-            associate: function(models: any) {
-                User.belongsTo(models.Role, {
-                    foreignKey: 'roleId',
-                    onUpdate: 'CASCADE',
-                    onDelete: 'CASCADE'
-                });
-            }
-        }
     });
+    
+    User.associate = function(models) {
+        User.belongsTo(models.Role, {
+            foreignKey: 'roleId',
+            as: 'role'
+        });
+
+        User.hasMany(models.Order, {
+            foreignKey: 'waiterId',
+            as: 'orders'
+        });
+
+        User.belongsToMany(models.Table, {
+            foreignKey: 'tableId',
+            through: 'Orders',
+            as: 'tables'
+        });
+    }
 
     return User;
 };

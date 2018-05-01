@@ -8,7 +8,7 @@ class RoleCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Role
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [RoleInstance]) => {
                 res.status(200).json(result);
             })
@@ -17,7 +17,7 @@ class RoleCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Role
-            .findById(req.params.roleId)
+            .findById({ include: [{ all: true }] }, req.params.roleId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Role not found" });

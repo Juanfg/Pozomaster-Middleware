@@ -8,7 +8,7 @@ class StockCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Stock
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [StockInstance]) => {
                 res.status(200).json(result);
             })
@@ -17,7 +17,7 @@ class StockCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Stock
-            .findById(req.params.stockId)
+            .findById({ include: [{ all: true }] }, req.params.stockId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Stock not found" });

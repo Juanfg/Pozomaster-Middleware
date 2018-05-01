@@ -18,17 +18,14 @@ export default function defineStock(sequelize: Sequelize, DataTypes: DataTypes):
     var Stock = sequelize.define('Stock', {
         quantity: DataTypes.INTEGER,
         ingredientId: DataTypes.INTEGER
-    }, {
-        classMethods: {
-            associate: function (models: any) {
-                Stock.belongsTo(models.Ingredients, {
-                    foreignKey: 'ingredientId',
-                    onUpdate: 'CASCADE',
-                    onDelete: 'CASCADE'
-                });
-            }
-        }
     });
+    
+    Stock.associate = function(models) {
+        Stock.belongsTo(models.Ingredient, {
+            foreignKey: 'ingredientId',
+            as: 'ingredient'
+        });
+    }
 
     return Stock;
 };

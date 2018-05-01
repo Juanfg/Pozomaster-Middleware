@@ -8,7 +8,7 @@ class UnitCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Unit
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [UnitInstance]) => {
                 res.status(200).json(result);
             })
@@ -17,7 +17,7 @@ class UnitCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Unit
-            .findById(req.params.unitId)
+            .findById({ include: [{ all: true }] }, req.params.unitId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Unit not found" });

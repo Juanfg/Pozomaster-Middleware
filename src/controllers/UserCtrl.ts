@@ -9,7 +9,7 @@ class UserCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.User
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [UserInstance]) => {
                 res.status(200).json(result);
             })
@@ -18,7 +18,7 @@ class UserCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.User
-            .findById(req.params.userId)
+            .findById({ include: [{ all: true }] }, req.params.userId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "User not found" });

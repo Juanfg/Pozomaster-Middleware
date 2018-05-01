@@ -8,7 +8,7 @@ class ProductCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Product
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [ProductInstance]) => {
                 res.status(200).json(result);
             })
@@ -17,7 +17,7 @@ class ProductCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Product
-            .findById(req.params.productId)
+            .findById({ include: [{ all: true }] }, req.params.productId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Product not found" });

@@ -8,7 +8,7 @@ class IngredientCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Ingredient
-            .findAll()
+            .findAll({ include: [{ all: true }] })
             .then((result: [IngredientInstance]) => {
                 res.status(200).json(result);
             })
@@ -17,7 +17,7 @@ class IngredientCtrl {
 
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Ingredient
-            .findById(req.params.ingredientId)
+            .findById({ include: [{ all: true }] }, req.params.ingredientId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Ingredient not found" });

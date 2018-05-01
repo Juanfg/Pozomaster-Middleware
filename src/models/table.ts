@@ -18,13 +18,20 @@ export default function defineTable(sequelize: Sequelize, DataTypes: DataTypes):
     var Table = sequelize.define('Table', {
         description: DataTypes.STRING,
         seats: DataTypes.INTEGER
-    }, {
-        classMethods: {
-            associate: function(models: any) {
-
-            }
-        }
     });
+
+    Table.associate = function(models) {
+        Table.hasMany(models.Order, {
+            foreignKey: 'tableId',
+            as: 'orders'
+        });
+
+        Table.belongsToMany(models.User, {
+            foreignKey: 'waiterId',
+            through: 'Orders',
+            as: 'waiters'
+        });
+    }
 
     return Table;
 };
