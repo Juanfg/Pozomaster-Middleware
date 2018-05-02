@@ -1,4 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
+import { OrderInstance } from './order';
 
 export interface TableAttributes {
     description ? : string;
@@ -12,6 +13,8 @@ export interface TableInstance {
 
     description: string;
     seats: number;
+    orders: [OrderInstance];
+    currentOrder: OrderInstance;
 }
 
 export default function defineTable(sequelize: Sequelize, DataTypes: DataTypes): any {

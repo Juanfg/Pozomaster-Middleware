@@ -31,7 +31,7 @@ class IngredientCtrl {
         let newIngredient: IngredientInstance = req.body;
         let ingredientAlreadyExist: boolean = false;
         Models.Ingredient
-            .findAll({ include: [{ all: true }] })
+            .findAll()
             .then((result: [IngredientInstance]) => {
                 result.forEach(ingredient => {
                     if (ingredient.name === newIngredient.name) {
@@ -71,7 +71,7 @@ class IngredientCtrl {
 
     public delete(req: Request, res: Response, next: NextFunction) {
         Models.Ingredient
-            .findById(req.params.ingredientId, { include: [{ all: true }] })
+            .findById(req.params.ingredientId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Ingredient not found" });

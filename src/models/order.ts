@@ -6,7 +6,7 @@ import {
 export interface OrderAttributes {
     tableId ? : number;
     waiterId ? : number;
-    date ? : Date;
+    completedDate ? : Date;
 
 }
 
@@ -17,7 +17,7 @@ export interface OrderInstance {
 
     tableId: number;
     waiterId: number;
-    date: Date;
+    completedDate: Date;
 
 }
 
@@ -25,7 +25,7 @@ export default function defineOrder(sequelize: Sequelize, DataTypes: DataTypes):
     var Order = sequelize.define('Order', {
         tableId: DataTypes.INTEGER,
         waiterId: DataTypes.INTEGER,
-        date: DataTypes.DATE
+        completedDate: DataTypes.DATE
     });
 
     Order.associate = function(models) {

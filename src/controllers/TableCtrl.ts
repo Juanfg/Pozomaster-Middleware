@@ -8,7 +8,12 @@ class TableCtrl {
 
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Table
-            .findAll({ include: [{ all: true }] })
+            .findAll({ include: [{ all: true }],
+                order: [
+                    [ 'id' ],
+                    [ {model: Models.Order, as: 'orders'}, 'id', 'DESC' ]
+                ]
+            })
             .then((result: [TableInstance]) => {
                 res.status(200).json(result);
             })
@@ -38,7 +43,7 @@ class TableCtrl {
 
     public update(req: Request, res: Response, next: NextFunction) {
         Models.Table
-            .findById(req.params.tableId)
+            .findById(req.params.tableId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Table not found" });

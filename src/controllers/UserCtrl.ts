@@ -32,7 +32,7 @@ class UserCtrl {
         let newUser: UserInstance = req.body;
         let userAlreadyExist: boolean = false;
         Models.User
-            .findAll({ include: [{ all: true }] })
+            .findAll()
             .then((result: [UserInstance]) => {
                 result.forEach(user => {
                     if (user.email === newUser.email) {
@@ -78,7 +78,7 @@ class UserCtrl {
 
     public delete(req: Request, res: Response, next: NextFunction) {
         Models.User
-            .findById(req.params.userId, { include: [{ all: true }] })
+            .findById(req.params.userId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "User not found" });

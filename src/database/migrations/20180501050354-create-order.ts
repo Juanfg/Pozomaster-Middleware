@@ -33,7 +33,7 @@ export = {
                 onDelete: 'CASCADE'
             },
 
-            date: {
+            completedDate: {
                 type: Sequelize.DATE
             },
 

@@ -31,7 +31,7 @@ class UnitCtrl {
         let newUnit: UnitInstance = req.body;
         let unitAlreadyExist: boolean = false;
         Models.Unit
-            .findAll({ include: [{ all: true }] })
+            .findAll()
             .then((result: [UnitInstance]) => {
                 result.forEach(unit => {
                     if (unit.name === newUnit.name) {
@@ -70,7 +70,7 @@ class UnitCtrl {
 
     public delete(req: Request, res: Response, next: NextFunction) {
         Models.Unit
-            .findById(req.params.unitId, { include: [{ all: true }] })
+            .findById(req.params.unitId)
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Unit not found" });

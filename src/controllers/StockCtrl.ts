@@ -40,7 +40,7 @@ class StockCtrl {
 
     public update(req: Request, res: Response, next: NextFunction) {
         Models.Stock
-            .findById(req.params.stockId)
+            .findById(req.params.stockId, { include: [{ all: true }] })
             .then((result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Stock not found" });

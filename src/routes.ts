@@ -79,6 +79,8 @@ class Routes {
         app.route('/api/orders').post(OrderCtrl.create);
         app.route('/api/orders/:orderId').put(OrderCtrl.update);
         app.route('/api/orders/:orderId').delete(OrderCtrl.delete);
+        app.route('/api/completeOrder/:orderId').put(OrderCtrl.complete);
+        app.route('/api/currentOrderByTable/:tableId').get(OrderCtrl.getCurrentOrderByTable);
     }
 }
 
