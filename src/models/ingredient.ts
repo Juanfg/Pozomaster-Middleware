@@ -37,8 +37,8 @@ export default function defineIngredient(sequelize: Sequelize, DataTypes: DataTy
         });
 
         Ingredient.belongsToMany(models.Product, {
-            foreignKey: 'productId',
-            through: 'IngredientProducts',
+            foreignKey: 'ingredientId',
+            through: 'IngredientProduct',
             as: 'products'
         });
     }

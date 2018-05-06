@@ -8,6 +8,7 @@ import RoleCtrl from './controllers/RoleCtrl';
 import StockCtrl from './controllers/StockCtrl';
 import UserCtrl from './controllers/UserCtrl';
 import OrderCtrl from './controllers/OrderCtrl';
+import OrderProductCtrl from './controllers/OrderProductCtrl';
 
 class Routes {
 
@@ -79,8 +80,12 @@ class Routes {
         app.route('/api/orders').post(OrderCtrl.create);
         app.route('/api/orders/:orderId').put(OrderCtrl.update);
         app.route('/api/orders/:orderId').delete(OrderCtrl.delete);
-        app.route('/api/completeOrder/:orderId').put(OrderCtrl.complete);
+        app.route('/api/orders/complete/:orderId').put(OrderCtrl.complete);
         app.route('/api/currentOrderByTable/:tableId').get(OrderCtrl.getCurrentOrderByTable);
+        
+        // OrderProduct routes
+        app.route('/api/orderProduct/order/:orderId').get(OrderProductCtrl.getProductsFromOrder);
+        app.route('/api/orderProduct/:orderId').post(OrderProductCtrl.addProductToOrder);
     }
 }
 

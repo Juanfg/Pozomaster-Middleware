@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { OrderInstance } from './../models/order';
 import Models from './../models';
+import { ProductInstance } from '../models/product';
 
 class OrderCtrl {
 
@@ -9,7 +10,7 @@ class OrderCtrl {
     public getAll(req: Request, res: Response, next: NextFunction) {
         Models.Order
             .findAll({ include: [{ all: true }] })
-            .then((result: [OrderInstance]) => {
+            .then((result: [any]) => {
                 res.status(200).json(result);
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the orders: ${err}` }));

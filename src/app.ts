@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: ".env"});
 import { Database } from './database/db';
 import Routes from './routes'
-import * as db from './models';
+import * as models  from './models';
 
 class App {
     public app: express.Application;

@@ -34,15 +34,9 @@ export default function defineProduct(sequelize: Sequelize, DataTypes: DataTypes
             as: 'orderProducts'
         });
 
-        Product.belongsToMany(models.Order, {
-            foreignKey: 'orderId',
-            through: 'OrderProducts',
-            as: 'orders'
-        });
-
         Product.belongsToMany(models.Ingredient, {
-            foreignKey: 'ingredientId',
-            through: 'IngredientProducts',
+            foreignKey: 'productId',
+            through: 'IngredientProduct',
             as: 'ingredients'
         });
     }

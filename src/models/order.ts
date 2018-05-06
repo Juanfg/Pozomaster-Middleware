@@ -34,11 +34,16 @@ export default function defineOrder(sequelize: Sequelize, DataTypes: DataTypes):
             as: 'user'
         });
 
-        Order.belongsToMany(models.Product, {
-            foreignKey: 'productId',
-            through: 'OrderProducts',
-            as: 'products'
+        Order.belongsTo(models.Table, {
+            foreignKey: 'tableId',
+            as: 'table'
         });
+        
+        Order.hasMany(models.OrderProduct, {
+            foreignKey: 'orderId',
+            as: 'orderProducts',
+        });
+
     };
 
     return Order;
