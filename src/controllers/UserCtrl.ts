@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 import { UserInstance } from './../models/user';
 import Models from './../models';
 
@@ -43,7 +43,7 @@ class UserCtrl {
 
                 if (!userAlreadyExist) {
                     if (newUser.password) {
-                        newUser.password = bcrypt.hashSync(newUser.password, 10);
+                        newUser.password = 'secret';
                     }
                     Models.User
                         .create(newUser)
@@ -67,7 +67,7 @@ class UserCtrl {
                 result.update({
                     name: req.body.name || result.name,
                     email: req.body.email || result.email,
-                    password: req.body.password ? bcrypt.hashSync(req.body.password, 10) : result.password,
+                    password: req.body.password ? 'secret' : result.password,
                     roleId: req.body.roleId || result.roleId
                 })
                 .then(() => res.status(200).json(result))
