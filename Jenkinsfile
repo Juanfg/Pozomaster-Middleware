@@ -34,13 +34,12 @@ pipeline {
       steps {
         sh 'npm install'
         sh 'npm install -g sequelize-cli-typescript'
-        sh 'npm install -g gulp'
       }
     }
 
     stage('DB') {
       steps {
-        sh 'gulp build'
+        sh 'npm build'
         sh 'sequelize db:migrate'
       }
     }
