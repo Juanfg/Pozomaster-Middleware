@@ -7,3 +7,10 @@ describe('Hello function', () => {
     expect(result).to.equal('Hello World!');
   });
 });
+
+describe('Goodbye function', () => {
+  it('should return Goodbye world', () => {
+    const result = 'Goodbye World!';
+    expect(result).to.equal('Goodbye World!');
+  });
+});
