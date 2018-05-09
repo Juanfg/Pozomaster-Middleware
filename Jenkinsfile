@@ -10,7 +10,7 @@ pipeline {
     DB_URL='postgresql://Lalo:1423qrwe@35.232.218.219:5432'
     DEV_DB_USERNAME='Lalo'
     DEV_DB_PASSWORD='1423qrwe'
-    DEV_DB_NAME='pozomasterdev'
+    DEV_DB_NAME='pozomaster-testing'
     DEV_DB_HOSTNAME='35.232.218.219'
     DEV_DB_PORT='5432'
     DEV_DB_DIALECT='postgres'
