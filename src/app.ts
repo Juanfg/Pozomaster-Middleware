@@ -8,7 +8,7 @@ import Routes from './routes'
 import * as models  from './models';
 
 class App {
-    public app: express.Application;
+    public app: any;
 
     constructor() {
         this.app = express();
