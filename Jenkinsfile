@@ -1,4 +1,10 @@
 pipeline {
+  agent {
+    docker {
+      image 'node'
+    }
+  }
+
   environment {
     PORT=8085
     DB_URL='postgresql://Lalo:1423qrwe@35.232.218.219:5432'
@@ -9,11 +15,7 @@ pipeline {
     DEV_DB_PORT=5432
     DEV_DB_DIALECT='postgres'
   }
-  agent {
-    docker {
-      image 'node'
-    }
-  }
+
   stages {
     stage('Clone Sources') {
       steps {
