@@ -85,7 +85,9 @@ class Routes {
         
         // OrderProduct routes
         app.route('/api/orderProduct/order/:orderId').get(OrderProductCtrl.getProductsFromOrder);
-        app.route('/api/orderProduct/:orderId').post(OrderProductCtrl.addProductToOrder);
+        app.route('/api/orderProduct/order/:orderId').post(OrderProductCtrl.addProductToOrder);
+        app.route('/api/orderProduct/order/:orderId').put(OrderProductCtrl.updateProductInOrder);
+        app.route('/api/orderProduct/order/:orderId/product/:productId').delete(OrderProductCtrl.deleteProductInOrder);
     }
 }
 
