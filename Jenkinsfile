@@ -39,7 +39,7 @@ pipeline {
 
     stage('DB') {
       steps {
-        sh 'npm run build'
+        sh 'npm run build-direct'
         sh 'sequelize db:migrate'
       }
     }
