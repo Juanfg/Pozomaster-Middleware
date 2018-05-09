@@ -5,6 +5,7 @@ class Server {
     private static serverInstance: Server;
     private server: any;
     private port: number;
+    public listen: any;
 
     public constructor() {
         this.runServer();
@@ -27,7 +28,7 @@ class Server {
         this.server = http.createServer(App);
         this.server.listen(this.port);
 
-        this.server.on('listening', () => {
+        this.listen = this.server.on('listening', () => {
             let address = this.server.address();
             let bind = (typeof address === 'string') ? `pipe ${address}` : `port ${address.port}`;
             console.log(`Listening on port ${bind}`);
@@ -52,4 +53,4 @@ class Server {
     }
 }
 
-export const server = Server.bootstrap();
+module.exports = Server.bootstrap().listen;

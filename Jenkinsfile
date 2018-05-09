@@ -41,7 +41,13 @@ pipeline {
       steps {
         sh 'npm run build-direct'
         sh 'sequelize db:migrate'
-        sh 'node build/server.js'
+        sh 'node build/server.js -d'
+      }
+    }
+
+    stage('Test') {
+      steps {
+        sh 'npm test'
       }
     }
   }
