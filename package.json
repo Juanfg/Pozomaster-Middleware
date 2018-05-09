@@ -8,7 +8,8 @@
     "start": "cross-env NODE_ENV=development gulp build && node build/server.js",
     "start:prod": "cross-env NODE_ENV=production gulp build && node build/server.js",
     "watch": "cross-env NODE_ENV=development gulp watch",
-    "watch:prod": "cross-env NODE_ENV=production gulp watch"
+    "watch:prod": "cross-env NODE_ENV=production gulp watch",
+    "build-direct": "tsc -p ./"
   },
   "keywords": [],
   "author": "Juan Pablo Flores Galindo",
