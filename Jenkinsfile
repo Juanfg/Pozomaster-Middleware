@@ -4,7 +4,6 @@ pipeline {
       image 'node'
     }
   }
-
   environment {
     PORT='8085'
     DB_URL='postgresql://Lalo:1423qrwe@35.232.218.219:5432'
@@ -15,7 +14,6 @@ pipeline {
     DEV_DB_PORT='5432'
     DEV_DB_DIALECT='postgres'
   }
-
   stages {
     stage('Clone Sources') {
       steps {
@@ -41,11 +39,10 @@ pipeline {
       steps {
         sh 'npm run build-direct'
         sh 'sequelize db:migrate'
-        sh 'node build/server.js -d'
       }
     }
 
-    stage('Test') {
+    stage('Tests') {
       steps {
         sh 'npm test'
       }
