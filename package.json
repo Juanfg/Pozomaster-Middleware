@@ -9,7 +9,7 @@
     "start:prod": "cross-env NODE_ENV=production gulp build && node build/server.js",
     "watch": "cross-env NODE_ENV=development gulp watch",
     "watch:prod": "cross-env NODE_ENV=production gulp watch",
-    "test": "mocha -r ts-node/register src/test/*.spec.ts"
+    "unit": "mocha -r ts-node/register src/test/*.spec.ts"
   },
   "keywords": [],
   "author": "Juan Pablo Flores Galindo",
