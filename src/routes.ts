@@ -9,6 +9,7 @@ import StockCtrl from './controllers/StockCtrl';
 import UserCtrl from './controllers/UserCtrl';
 import OrderCtrl from './controllers/OrderCtrl';
 import OrderProductCtrl from './controllers/OrderProductCtrl';
+import IngredientProductCtrl from './controllers/IngredientProductCtrl';
 
 class Routes {
 
@@ -88,6 +89,12 @@ class Routes {
         app.route('/api/orderProduct/order/:orderId').post(OrderProductCtrl.addProductToOrder);
         app.route('/api/orderProduct/order/:orderId').put(OrderProductCtrl.updateProductInOrder);
         app.route('/api/orderProduct/order/:orderId/product/:productId').delete(OrderProductCtrl.deleteProductInOrder);
+    
+        // IngredientProduct routes
+        app.route('/api/ingredientProduct/product/:productId').get(IngredientProductCtrl.getIngredientsFromProduct);
+        app.route('/api/ingredientProduct/product/:productId').post(IngredientProductCtrl.addIngredientToProduct);
+        app.route('/api/ingredientProduct/product/:productId').put(IngredientProductCtrl.updateIngredientInProduct);
+        app.route('/api/ingredientProduct/product/:productId/ingredient/:ingredientId').delete(IngredientProductCtrl.deleteIngredientInProduct);
     }
 }
 

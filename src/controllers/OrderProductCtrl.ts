@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { OrderProductInstance } from './../models/orderproduct';
 import Models from './../models';
 
-class OderProductCtrl {
+class OrderProductCtrl {
 
     constructor() {}
 
@@ -95,4 +95,4 @@ class OderProductCtrl {
     }
 }
 
-export default new OderProductCtrl();
+export default new OrderProductCtrl();
