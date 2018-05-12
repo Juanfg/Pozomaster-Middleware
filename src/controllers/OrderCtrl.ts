@@ -16,6 +16,15 @@ class OrderCtrl {
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the orders: ${err}` }));
     }
 
+    public getCompletedOrders(req: Request, res: Response, next: NextFunction) {
+        Models.Order
+            .findAll({ where: { completedDate: { $ne: null } }, include: [{ all: true }]})
+            .then((result: [any]) => {
+                res.status(200).json(result);
+            })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to access the completed orders: ${err}` }));            
+    }
+
     public view(req: Request, res: Response, next: NextFunction) {
         Models.Order
             .findById(req.params.orderId, { include: [{ all: true }] })
@@ -87,6 +96,7 @@ class OrderCtrl {
                     return res.status(400).json({ "message": "Order not found" });
                 }
                 let completedDate = Date.now();
+                let total = 0;
                 result.update({
                     completedDate: completedDate
                 })
@@ -96,6 +106,7 @@ class OrderCtrl {
                         await Models.Product
                             .findById(orderProduct.productId, { include: [ { all: true } ] } )
                             .then(async (product: any) => {
+                                total += product.price * orderProduct.quantity;
                                 for (let j = 0; j < product.ingredientProducts.length; j++) {
                                     let ingredientProduct = product.ingredientProducts[j];
                                     await Models.Ingredient
@@ -115,6 +126,9 @@ class OrderCtrl {
                                 res.status(500).json({ "message": `Error trying to get the product ${err}` });
                             });
                     }
+                    result.update({
+                        total: total
+                    });
                     res.status(200).json(result)
                 })
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to complete the order ${err}` }));

@@ -37,6 +37,10 @@ export = {
                 type: Sequelize.DATE
             },
 
+            total: {
+                type: Sequelize.DOUBLE
+            },
+
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

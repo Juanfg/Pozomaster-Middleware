@@ -77,6 +77,7 @@ class Routes {
 
         // Orders routes
         app.route('/api/orders').get(OrderCtrl.getAll);
+        app.route('/api/orders/complete').get(OrderCtrl.getCompletedOrders);
         app.route('/api/orders/:orderId').get(OrderCtrl.view);
         app.route('/api/orders').post(OrderCtrl.create);
         app.route('/api/orders/:orderId').put(OrderCtrl.update);
