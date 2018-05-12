@@ -91,48 +91,44 @@ class OrderCtrl {
     public complete(req: Request, res: Response, next: NextFunction) {
         Models.Order
             .findById(req.params.orderId, { include: [{ all: true }] })
-            .then((result: any) => {
+            .then(async (result: any) => {
                 if (!result) {
                     return res.status(400).json({ "message": "Order not found" });
                 }
                 let completedDate = Date.now();
                 let total = 0;
-                result.update({
-                    completedDate: completedDate
-                })
-                .then(async () => {
-                    for (let i = 0; i < result.orderProducts.length; i++) {
-                        let orderProduct = result.orderProducts[i];
-                        await Models.Product
-                            .findById(orderProduct.productId, { include: [ { all: true } ] } )
-                            .then(async (product: any) => {
-                                total += product.price * orderProduct.quantity;
-                                for (let j = 0; j < product.ingredientProducts.length; j++) {
-                                    let ingredientProduct = product.ingredientProducts[j];
-                                    await Models.Ingredient
-                                        .findById(ingredientProduct.ingredientId)
-                                        .then(async (ingredient: any) => {
-                                            let quantityToDecrease = ingredientProduct.quantity * orderProduct.quantity;
-                                            await ingredient.update({
-                                                quantity: ingredient.quantity - quantityToDecrease
-                                            });
-                                        })
-                                        .catch((err: Error) => {
-                                            res.status(500).json({ "message": `Error trying to get the ingredient ${err}` });
+                for (let i = 0; i < result.orderProducts.length; i++) {
+                    let orderProduct = result.orderProducts[i];
+                    await Models.Product
+                        .findById(orderProduct.productId, { include: [ { all: true } ] } )
+                        .then(async (product: any) => {
+                            total += product.price * orderProduct.quantity;
+                            for (let j = 0; j < product.ingredientProducts.length; j++) {
+                                let ingredientProduct = product.ingredientProducts[j];
+                                await Models.Ingredient
+                                    .findById(ingredientProduct.ingredientId)
+                                    .then(async (ingredient: any) => {
+                                        let quantityToDecrease = ingredientProduct.quantity * orderProduct.quantity;
+                                        await ingredient.update({
+                                            quantity: ingredient.quantity - quantityToDecrease
                                         });
-                                }
-                            })
-                            .catch((err: Error) => {
-                                res.status(500).json({ "message": `Error trying to get the product ${err}` });
-                            });
-                    }
-                    result.update({
-                        total: total
-                    });
-                    res.status(200).json(result)
-                })
-                .catch((err: Error) => res.status(400).json({ "message": `Error trying to complete the order ${err}` }));
+                                    })
+                                    .catch((err: Error) => {
+                                        res.status(500).json({ "message": `Error trying to get the ingredient ${err}` });
+                                    });
+                            }
+                        })
+                        .catch((err: Error) => {
+                            res.status(500).json({ "message": `Error trying to get the product ${err}` });
+                        });
+                }
+                result.update({
+                    completedDate: completedDate,
+                    total: total
+                });
+                res.status(200).json(result)
             })
+            .catch((err: Error) => res.status(500).json({ "message": `Error trying to get the order ${err}` }))
     }
 
     public getCurrentOrderByTable(req: Request, res: Response, next: NextFunction) {
