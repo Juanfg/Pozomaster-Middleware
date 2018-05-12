@@ -17,6 +17,11 @@ export = {
                 type: Sequelize.STRING
             },
 
+            quantity: {
+                type: Sequelize.DOUBLE,
+                defaultValue: 0
+            },
+
             unitId: {
                 type: Sequelize.INTEGER,
                 references: {

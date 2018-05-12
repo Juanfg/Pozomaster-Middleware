@@ -61,6 +61,7 @@ class IngredientCtrl {
                 }
                 result.update({
                     name: req.body.name || result.name,
+                    quantity: req.body.quantity || result.quantity,
                     unitId: req.body.unitId || result.unitId
                 })
                 .then(() => res.status(200).json(result))

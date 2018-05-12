@@ -34,7 +34,7 @@ export = {
             },
 
             quantity: {
-                type: Sequelize.INTEGER
+                type: Sequelize.DOUBLE
             },
 
             createdAt: {

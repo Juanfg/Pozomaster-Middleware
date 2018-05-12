@@ -16,7 +16,7 @@ export interface StockInstance {
 
 export default function defineStock(sequelize: Sequelize, DataTypes: DataTypes): any {
     var Stock = sequelize.define('Stock', {
-        quantity: DataTypes.INTEGER,
+        quantity: DataTypes.DOUBLE,
         ingredientId: DataTypes.INTEGER
     });
     

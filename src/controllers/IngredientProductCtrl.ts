@@ -16,6 +16,7 @@ class IngredientProductCtrl {
     }
 
     public addIngredientToProduct(req: Request, res: Response, next: NextFunction) {
+        console.log(req.body.quantity)
         Models.IngredientProduct
             .find({ where: { $and: { 'ingredientId': req.body.ingredientId, 'productId': req.params.productId } } , include: [{ all: true }] })
             .then((ingredientProduct: any) => {

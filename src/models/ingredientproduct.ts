@@ -25,7 +25,7 @@ export default function defineIngredientProduct(sequelize: Sequelize, DataTypes:
     var IngredientProduct = sequelize.define('IngredientProduct', {
         ingredientId: DataTypes.INTEGER,
         productId: DataTypes.INTEGER,
-        quantity: DataTypes.INTEGER
+        quantity: DataTypes.DOUBLE
     });
 
     IngredientProduct.associate = function(models) {

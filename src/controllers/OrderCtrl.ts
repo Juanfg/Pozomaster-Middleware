@@ -90,7 +90,33 @@ class OrderCtrl {
                 result.update({
                     completedDate: completedDate
                 })
-                .then(() => res.status(200).json(result))
+                .then(async () => {
+                    for (let i = 0; i < result.orderProducts.length; i++) {
+                        let orderProduct = result.orderProducts[i];
+                        await Models.Product
+                            .findById(orderProduct.productId, { include: [ { all: true } ] } )
+                            .then(async (product: any) => {
+                                for (let j = 0; j < product.ingredientProducts.length; j++) {
+                                    let ingredientProduct = product.ingredientProducts[j];
+                                    await Models.Ingredient
+                                        .findById(ingredientProduct.ingredientId)
+                                        .then(async (ingredient: any) => {
+                                            let quantityToDecrease = ingredientProduct.quantity * orderProduct.quantity;
+                                            await ingredient.update({
+                                                quantity: ingredient.quantity - quantityToDecrease
+                                            });
+                                        })
+                                        .catch((err: Error) => {
+                                            res.status(500).json({ "message": `Error trying to get the ingredient ${err}` });
+                                        });
+                                }
+                            })
+                            .catch((err: Error) => {
+                                res.status(500).json({ "message": `Error trying to get the product ${err}` });
+                            });
+                    }
+                    res.status(200).json(result)
+                })
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to complete the order ${err}` }));
             })
     }

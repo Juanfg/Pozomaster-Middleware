@@ -32,8 +32,28 @@ class StockCtrl {
         let stockAlreadyExist: boolean = false;
         Models.Stock
             .create(newStock)
-            .then((result: StockInstance) => {
-                res.status(201).json(result);
+            .then((result: any) => {
+                Models.Ingredient
+                    .findById(result.ingredientId)
+                    .then((ingredient: any) => {
+                        if (!ingredient) {
+                            res.status(400).json({ "message": "Ingredient not found" });
+                        }
+
+                        ingredient.update({
+                            quantity: ingredient.quantity + result.quantity
+                        })
+                        .then(() => {
+                            result.ingredient = ingredient;
+                            res.status(200).json(result);
+                        })
+                        .catch((err: Error) => {
+                            res.status(500).json({ "message": `Error trying to update the ingredient in the stock ${err}` });
+                        })
+                    })
+                    .catch((err: Error) => {
+                        res.status(500).json({ "message": `Error trying to find the ingredient ${err}` });
+                    })
             })
             .catch((err: Error) => res.status(500).json({ "message": `Error trying to create the stock: ${err}` }));
     }
@@ -45,11 +65,38 @@ class StockCtrl {
                 if (!result) {
                     return res.status(400).json({ "message": "Stock not found" });
                 }
+
+                let quantityToAdd = 0;
+                if (req.body.quantity) {
+                    quantityToAdd = req.body.quantity - result.quantity;
+                }
                 result.update({
                     quantity: req.body.quantity || result.quantity,
                     ingredientId: req.body.ingredientId || result.ingredientId
                 })
-                .then(() => res.status(200).json(result))
+                .then(() => {
+                    Models.Ingredient
+                        .findById(result.ingredientId)
+                        .then((ingredient: any) => {
+                            if (!ingredient) {
+                                res.status(400).json({ "message": "Ingredient not found" });
+                            }
+
+                            ingredient.update({
+                                quantity: ingredient.quantity + quantityToAdd
+                            })
+                            .then(() => {
+                                result.ingredient = ingredient;
+                                res.status(200).json(result);
+                            })
+                            .catch((err: Error) => {
+                                res.status(500).json({ "message": `Error trying to update the ingredient in the stock ${err}` });
+                            })
+                        })
+                        .catch((err: Error) => {
+                            res.status(500).json({ "message": `Error trying to find the ingredient ${err}` });
+                        })
+                })
                 .catch((err: Error) => res.status(400).json({ "message": `Error trying to update the stock ${err}` }));
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the stock: ${err}` }));
@@ -62,13 +109,34 @@ class StockCtrl {
                 if (!result) {
                     return res.status(400).json({ "message": "Stock not found" });
                 }
-                result.destroy()
-                    .then((result: any) => {
-                        res.status(200).json({
-                            "message": "Deleted"
+
+                Models.Ingredient
+                    .findById(result.ingredientId)
+                    .then((ingredient: any) => {
+                        if (!ingredient) {
+                            res.status(400).json({ "message": "Ingredient not found" });
+                        }
+
+                        ingredient.update({
+                            quantity: ingredient.quantity - result.quantity
+                        })
+                        .then(() => {
+                            result.ingredient = ingredient;
+                            result.destroy()
+                                .then((result: any) => {
+                                    res.status(200).json({
+                                        "message": "Deleted"
+                                    })
+                                })
+                                .catch((err: Error) => res.status(400).json({ "message": `Error trying to delete the stock ${err}` }));
+                        })
+                        .catch((err: Error) => {
+                            res.status(500).json({ "message": `Error trying to update the ingredient in the stock ${err}` });
                         })
                     })
-                    .catch((err: Error) => res.status(400).json({ "message": `Error trying to delete the stock ${err}` }));
+                    .catch((err: Error) => {
+                        res.status(500).json({ "message": `Error trying to find the ingredient ${err}` });
+                    })
             })
             .catch((err: Error) => res.status(400).json({ "message": `Error trying to get the stock: ${err}` }));
     }

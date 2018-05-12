@@ -2,6 +2,7 @@ import { Sequelize, DataTypes } from 'sequelize';
 
 export interface IngredientAttributes {
     name ? : string;
+    quantity ? : number;
     unitId: number;
 }
 
@@ -11,12 +12,14 @@ export interface IngredientInstance {
     updatedAt: Date;
 
     name: string;
+    quantity: number;
     unitId: number;
 }
 
 export default function defineIngredient(sequelize: Sequelize, DataTypes: DataTypes): any {
     var Ingredient = sequelize.define('Ingredient', {
         name: DataTypes.STRING,
+        quantity: DataTypes.DOUBLE,
         unitId: DataTypes.INTEGER
     });
     
